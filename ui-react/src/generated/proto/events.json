@@ -1,0 +1,1208 @@
+{
+  "options": {
+    "syntax": "proto3"
+  },
+  "nested": {
+    "events": {
+      "options": {
+        "go_package": "github.com/go-go-golems/go-go-agent/pkg/events"
+      },
+      "nested": {
+        "LlmMessage": {
+          "fields": {
+            "role": {
+              "type": "string",
+              "id": 1
+            },
+            "content": {
+              "type": "string",
+              "id": 2
+            }
+          }
+        },
+        "StepStartedPayload": {
+          "fields": {
+            "step": {
+              "type": "int32",
+              "id": 1
+            },
+            "nodeId": {
+              "type": "string",
+              "id": 2
+            },
+            "nodeGoal": {
+              "type": "string",
+              "id": 3
+            },
+            "rootId": {
+              "type": "string",
+              "id": 4
+            }
+          }
+        },
+        "StepFinishedPayload": {
+          "fields": {
+            "step": {
+              "type": "int32",
+              "id": 1
+            },
+            "nodeId": {
+              "type": "string",
+              "id": 2
+            },
+            "actionName": {
+              "type": "string",
+              "id": 3
+            },
+            "statusAfter": {
+              "type": "string",
+              "id": 4
+            },
+            "durationSeconds": {
+              "type": "double",
+              "id": 5
+            }
+          }
+        },
+        "NodeStatusChangePayload": {
+          "oneofs": {
+            "_step": {
+              "oneof": [
+                "step"
+              ]
+            }
+          },
+          "fields": {
+            "nodeId": {
+              "type": "string",
+              "id": 1
+            },
+            "nodeGoal": {
+              "type": "string",
+              "id": 2
+            },
+            "oldStatus": {
+              "type": "string",
+              "id": 3
+            },
+            "newStatus": {
+              "type": "string",
+              "id": 4
+            },
+            "step": {
+              "type": "int32",
+              "id": 5,
+              "options": {
+                "proto3_optional": true
+              }
+            }
+          }
+        },
+        "TokenUsage": {
+          "oneofs": {
+            "_error": {
+              "oneof": [
+                "error"
+              ]
+            },
+            "_nodeId": {
+              "oneof": [
+                "nodeId"
+              ]
+            }
+          },
+          "fields": {
+            "promptTokens": {
+              "type": "int32",
+              "id": 1
+            },
+            "completionTokens": {
+              "type": "int32",
+              "id": 2
+            },
+            "error": {
+              "type": "string",
+              "id": 3,
+              "options": {
+                "proto3_optional": true
+              }
+            },
+            "nodeId": {
+              "type": "string",
+              "id": 4,
+              "options": {
+                "proto3_optional": true
+              }
+            }
+          }
+        },
+        "LlmCallStartedPayload": {
+          "oneofs": {
+            "_step": {
+              "oneof": [
+                "step"
+              ]
+            },
+            "_nodeId": {
+              "oneof": [
+                "nodeId"
+              ]
+            },
+            "_actionName": {
+              "oneof": [
+                "actionName"
+              ]
+            }
+          },
+          "fields": {
+            "agentClass": {
+              "type": "string",
+              "id": 1
+            },
+            "model": {
+              "type": "string",
+              "id": 2
+            },
+            "prompt": {
+              "rule": "repeated",
+              "type": "LlmMessage",
+              "id": 3
+            },
+            "promptPreview": {
+              "type": "string",
+              "id": 4
+            },
+            "step": {
+              "type": "int32",
+              "id": 5,
+              "options": {
+                "proto3_optional": true
+              }
+            },
+            "nodeId": {
+              "type": "string",
+              "id": 6,
+              "options": {
+                "proto3_optional": true
+              }
+            },
+            "actionName": {
+              "type": "string",
+              "id": 7,
+              "options": {
+                "proto3_optional": true
+              }
+            },
+            "callId": {
+              "type": "string",
+              "id": 8
+            }
+          }
+        },
+        "LlmCallCompletedPayload": {
+          "oneofs": {
+            "_error": {
+              "oneof": [
+                "error"
+              ]
+            },
+            "_step": {
+              "oneof": [
+                "step"
+              ]
+            },
+            "_nodeId": {
+              "oneof": [
+                "nodeId"
+              ]
+            },
+            "_tokenUsage": {
+              "oneof": [
+                "tokenUsage"
+              ]
+            },
+            "_actionName": {
+              "oneof": [
+                "actionName"
+              ]
+            }
+          },
+          "fields": {
+            "agentClass": {
+              "type": "string",
+              "id": 1
+            },
+            "model": {
+              "type": "string",
+              "id": 2
+            },
+            "durationSeconds": {
+              "type": "double",
+              "id": 3
+            },
+            "response": {
+              "type": "string",
+              "id": 4
+            },
+            "resultSummary": {
+              "type": "string",
+              "id": 5
+            },
+            "error": {
+              "type": "string",
+              "id": 6,
+              "options": {
+                "proto3_optional": true
+              }
+            },
+            "step": {
+              "type": "int32",
+              "id": 7,
+              "options": {
+                "proto3_optional": true
+              }
+            },
+            "nodeId": {
+              "type": "string",
+              "id": 8,
+              "options": {
+                "proto3_optional": true
+              }
+            },
+            "tokenUsage": {
+              "type": "TokenUsage",
+              "id": 9,
+              "options": {
+                "proto3_optional": true
+              }
+            },
+            "actionName": {
+              "type": "string",
+              "id": 10,
+              "options": {
+                "proto3_optional": true
+              }
+            },
+            "callId": {
+              "type": "string",
+              "id": 11
+            }
+          }
+        },
+        "ToolInvokedPayload": {
+          "oneofs": {
+            "_nodeId": {
+              "oneof": [
+                "nodeId"
+              ]
+            },
+            "_step": {
+              "oneof": [
+                "step"
+              ]
+            },
+            "_agentClass": {
+              "oneof": [
+                "agentClass"
+              ]
+            }
+          },
+          "fields": {
+            "toolName": {
+              "type": "string",
+              "id": 1
+            },
+            "apiName": {
+              "type": "string",
+              "id": 2
+            },
+            "argsSummary": {
+              "type": "string",
+              "id": 3
+            },
+            "nodeId": {
+              "type": "string",
+              "id": 4,
+              "options": {
+                "proto3_optional": true
+              }
+            },
+            "step": {
+              "type": "int32",
+              "id": 5,
+              "options": {
+                "proto3_optional": true
+              }
+            },
+            "agentClass": {
+              "type": "string",
+              "id": 6,
+              "options": {
+                "proto3_optional": true
+              }
+            },
+            "toolCallId": {
+              "type": "string",
+              "id": 7
+            }
+          }
+        },
+        "ToolReturnedPayload": {
+          "oneofs": {
+            "_error": {
+              "oneof": [
+                "error"
+              ]
+            },
+            "_nodeId": {
+              "oneof": [
+                "nodeId"
+              ]
+            },
+            "_step": {
+              "oneof": [
+                "step"
+              ]
+            },
+            "_agentClass": {
+              "oneof": [
+                "agentClass"
+              ]
+            }
+          },
+          "fields": {
+            "toolName": {
+              "type": "string",
+              "id": 1
+            },
+            "apiName": {
+              "type": "string",
+              "id": 2
+            },
+            "state": {
+              "type": "string",
+              "id": 3
+            },
+            "durationSeconds": {
+              "type": "double",
+              "id": 4
+            },
+            "resultSummary": {
+              "type": "string",
+              "id": 5
+            },
+            "error": {
+              "type": "string",
+              "id": 6,
+              "options": {
+                "proto3_optional": true
+              }
+            },
+            "nodeId": {
+              "type": "string",
+              "id": 7,
+              "options": {
+                "proto3_optional": true
+              }
+            },
+            "step": {
+              "type": "int32",
+              "id": 8,
+              "options": {
+                "proto3_optional": true
+              }
+            },
+            "agentClass": {
+              "type": "string",
+              "id": 9,
+              "options": {
+                "proto3_optional": true
+              }
+            },
+            "toolCallId": {
+              "type": "string",
+              "id": 10
+            }
+          }
+        },
+        "NodeCreatedPayload": {
+          "oneofs": {
+            "_outerNodeId": {
+              "oneof": [
+                "outerNodeId"
+              ]
+            },
+            "_step": {
+              "oneof": [
+                "step"
+              ]
+            }
+          },
+          "fields": {
+            "nodeId": {
+              "type": "string",
+              "id": 1
+            },
+            "nodeNid": {
+              "type": "string",
+              "id": 2
+            },
+            "nodeType": {
+              "type": "string",
+              "id": 3
+            },
+            "taskType": {
+              "type": "string",
+              "id": 4
+            },
+            "taskGoal": {
+              "type": "string",
+              "id": 5
+            },
+            "layer": {
+              "type": "int32",
+              "id": 6
+            },
+            "outerNodeId": {
+              "type": "string",
+              "id": 7,
+              "options": {
+                "proto3_optional": true
+              }
+            },
+            "rootNodeId": {
+              "type": "string",
+              "id": 8
+            },
+            "initialParentNids": {
+              "rule": "repeated",
+              "type": "string",
+              "id": 9
+            },
+            "step": {
+              "type": "int32",
+              "id": 10,
+              "options": {
+                "proto3_optional": true
+              }
+            }
+          }
+        },
+        "PlanReceivedPayload": {
+          "oneofs": {
+            "_step": {
+              "oneof": [
+                "step"
+              ]
+            },
+            "_taskType": {
+              "oneof": [
+                "taskType"
+              ]
+            },
+            "_taskGoal": {
+              "oneof": [
+                "taskGoal"
+              ]
+            }
+          },
+          "fields": {
+            "nodeId": {
+              "type": "string",
+              "id": 1
+            },
+            "rawPlan": {
+              "type": "google.protobuf.Struct",
+              "id": 2
+            },
+            "step": {
+              "type": "int32",
+              "id": 3,
+              "options": {
+                "proto3_optional": true
+              }
+            },
+            "taskType": {
+              "type": "string",
+              "id": 4,
+              "options": {
+                "proto3_optional": true
+              }
+            },
+            "taskGoal": {
+              "type": "string",
+              "id": 5,
+              "options": {
+                "proto3_optional": true
+              }
+            }
+          }
+        },
+        "NodeAddedPayload": {
+          "oneofs": {
+            "_step": {
+              "oneof": [
+                "step"
+              ]
+            },
+            "_taskType": {
+              "oneof": [
+                "taskType"
+              ]
+            },
+            "_taskGoal": {
+              "oneof": [
+                "taskGoal"
+              ]
+            }
+          },
+          "fields": {
+            "graphOwnerNodeId": {
+              "type": "string",
+              "id": 1
+            },
+            "addedNodeId": {
+              "type": "string",
+              "id": 2
+            },
+            "addedNodeNid": {
+              "type": "string",
+              "id": 3
+            },
+            "step": {
+              "type": "int32",
+              "id": 4,
+              "options": {
+                "proto3_optional": true
+              }
+            },
+            "taskType": {
+              "type": "string",
+              "id": 5,
+              "options": {
+                "proto3_optional": true
+              }
+            },
+            "taskGoal": {
+              "type": "string",
+              "id": 6,
+              "options": {
+                "proto3_optional": true
+              }
+            }
+          }
+        },
+        "EdgeAddedPayload": {
+          "oneofs": {
+            "_step": {
+              "oneof": [
+                "step"
+              ]
+            },
+            "_taskType": {
+              "oneof": [
+                "taskType"
+              ]
+            },
+            "_taskGoal": {
+              "oneof": [
+                "taskGoal"
+              ]
+            }
+          },
+          "fields": {
+            "graphOwnerNodeId": {
+              "type": "string",
+              "id": 1
+            },
+            "parentNodeId": {
+              "type": "string",
+              "id": 2
+            },
+            "childNodeId": {
+              "type": "string",
+              "id": 3
+            },
+            "parentNodeNid": {
+              "type": "string",
+              "id": 4
+            },
+            "childNodeNid": {
+              "type": "string",
+              "id": 5
+            },
+            "step": {
+              "type": "int32",
+              "id": 6,
+              "options": {
+                "proto3_optional": true
+              }
+            },
+            "taskType": {
+              "type": "string",
+              "id": 7,
+              "options": {
+                "proto3_optional": true
+              }
+            },
+            "taskGoal": {
+              "type": "string",
+              "id": 8,
+              "options": {
+                "proto3_optional": true
+              }
+            }
+          }
+        },
+        "InnerGraphBuiltPayload": {
+          "oneofs": {
+            "_step": {
+              "oneof": [
+                "step"
+              ]
+            },
+            "_taskType": {
+              "oneof": [
+                "taskType"
+              ]
+            },
+            "_taskGoal": {
+              "oneof": [
+                "taskGoal"
+              ]
+            }
+          },
+          "fields": {
+            "nodeId": {
+              "type": "string",
+              "id": 1
+            },
+            "nodeCount": {
+              "type": "int32",
+              "id": 2
+            },
+            "edgeCount": {
+              "type": "int32",
+              "id": 3
+            },
+            "nodeIds": {
+              "rule": "repeated",
+              "type": "string",
+              "id": 4
+            },
+            "step": {
+              "type": "int32",
+              "id": 5,
+              "options": {
+                "proto3_optional": true
+              }
+            },
+            "taskType": {
+              "type": "string",
+              "id": 6,
+              "options": {
+                "proto3_optional": true
+              }
+            },
+            "taskGoal": {
+              "type": "string",
+              "id": 7,
+              "options": {
+                "proto3_optional": true
+              }
+            }
+          }
+        },
+        "NodeResultAvailablePayload": {
+          "oneofs": {
+            "_step": {
+              "oneof": [
+                "step"
+              ]
+            },
+            "_taskType": {
+              "oneof": [
+                "taskType"
+              ]
+            },
+            "_taskGoal": {
+              "oneof": [
+                "taskGoal"
+              ]
+            }
+          },
+          "fields": {
+            "nodeId": {
+              "type": "string",
+              "id": 1
+            },
+            "actionName": {
+              "type": "string",
+              "id": 2
+            },
+            "resultSummary": {
+              "type": "string",
+              "id": 3
+            },
+            "step": {
+              "type": "int32",
+              "id": 4,
+              "options": {
+                "proto3_optional": true
+              }
+            },
+            "taskType": {
+              "type": "string",
+              "id": 5,
+              "options": {
+                "proto3_optional": true
+              }
+            },
+            "taskGoal": {
+              "type": "string",
+              "id": 6,
+              "options": {
+                "proto3_optional": true
+              }
+            }
+          }
+        },
+        "RunStartedPayload": {
+          "fields": {
+            "inputData": {
+              "type": "google.protobuf.Struct",
+              "id": 1
+            },
+            "config": {
+              "type": "google.protobuf.Struct",
+              "id": 2
+            },
+            "runMode": {
+              "type": "string",
+              "id": 3
+            },
+            "timestampUtc": {
+              "type": "google.protobuf.Timestamp",
+              "id": 4
+            }
+          }
+        },
+        "RunFinishedPayload": {
+          "oneofs": {
+            "_searchStatistics": {
+              "oneof": [
+                "searchStatistics"
+              ]
+            }
+          },
+          "fields": {
+            "totalSteps": {
+              "type": "int32",
+              "id": 1
+            },
+            "durationSeconds": {
+              "type": "double",
+              "id": 2
+            },
+            "totalNodes": {
+              "type": "int32",
+              "id": 3
+            },
+            "totalLlmCalls": {
+              "type": "int32",
+              "id": 4
+            },
+            "totalToolCalls": {
+              "type": "int32",
+              "id": 5
+            },
+            "tokenUsageSummary": {
+              "type": "TokenUsageSummary",
+              "id": 6
+            },
+            "nodeStatistics": {
+              "type": "NodeStatistics",
+              "id": 7
+            },
+            "searchStatistics": {
+              "type": "SearchStatistics",
+              "id": 8,
+              "options": {
+                "proto3_optional": true
+              }
+            }
+          },
+          "nested": {
+            "TokenUsageSummary": {
+              "fields": {
+                "totalPromptTokens": {
+                  "type": "int32",
+                  "id": 1
+                },
+                "totalCompletionTokens": {
+                  "type": "int32",
+                  "id": 2
+                }
+              }
+            },
+            "NodeStatistics": {
+              "fields": {
+                "totalCreated": {
+                  "type": "int32",
+                  "id": 1
+                },
+                "totalCompleted": {
+                  "type": "int32",
+                  "id": 2
+                },
+                "byType": {
+                  "keyType": "string",
+                  "type": "int32",
+                  "id": 3
+                }
+              }
+            },
+            "SearchStatistics": {
+              "fields": {
+                "totalSearches": {
+                  "type": "int32",
+                  "id": 1
+                },
+                "totalPagesProcessed": {
+                  "type": "int32",
+                  "id": 2
+                },
+                "totalSearchTokens": {
+                  "type": "int32",
+                  "id": 3
+                }
+              }
+            }
+          }
+        },
+        "RunErrorPayload": {
+          "oneofs": {
+            "_nodeId": {
+              "oneof": [
+                "nodeId"
+              ]
+            },
+            "_step": {
+              "oneof": [
+                "step"
+              ]
+            }
+          },
+          "fields": {
+            "errorType": {
+              "type": "string",
+              "id": 1
+            },
+            "errorMessage": {
+              "type": "string",
+              "id": 2
+            },
+            "stackTrace": {
+              "type": "string",
+              "id": 3
+            },
+            "nodeId": {
+              "type": "string",
+              "id": 4,
+              "options": {
+                "proto3_optional": true
+              }
+            },
+            "step": {
+              "type": "int32",
+              "id": 5,
+              "options": {
+                "proto3_optional": true
+              }
+            },
+            "context": {
+              "type": "Context",
+              "id": 6
+            }
+          },
+          "nested": {
+            "Context": {
+              "oneofs": {
+                "_engineBackend": {
+                  "oneof": [
+                    "engineBackend"
+                  ]
+                }
+              },
+              "fields": {
+                "lastSuccessfulStep": {
+                  "type": "int32",
+                  "id": 1
+                },
+                "totalProcessedItems": {
+                  "type": "int32",
+                  "id": 2
+                },
+                "lastItemId": {
+                  "type": "string",
+                  "id": 3
+                },
+                "engineBackend": {
+                  "type": "string",
+                  "id": 4,
+                  "options": {
+                    "proto3_optional": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "EventType": {
+          "values": {
+            "EVENT_TYPE_UNSPECIFIED": 0,
+            "EVENT_TYPE_STEP_STARTED": 1,
+            "EVENT_TYPE_STEP_FINISHED": 2,
+            "EVENT_TYPE_NODE_STATUS_CHANGED": 3,
+            "EVENT_TYPE_LLM_CALL_STARTED": 4,
+            "EVENT_TYPE_LLM_CALL_COMPLETED": 5,
+            "EVENT_TYPE_TOOL_INVOKED": 6,
+            "EVENT_TYPE_TOOL_RETURNED": 7,
+            "EVENT_TYPE_NODE_CREATED": 8,
+            "EVENT_TYPE_PLAN_RECEIVED": 9,
+            "EVENT_TYPE_NODE_ADDED": 10,
+            "EVENT_TYPE_EDGE_ADDED": 11,
+            "EVENT_TYPE_INNER_GRAPH_BUILT": 12,
+            "EVENT_TYPE_NODE_RESULT_AVAILABLE": 13,
+            "EVENT_TYPE_RUN_STARTED": 14,
+            "EVENT_TYPE_RUN_FINISHED": 15,
+            "EVENT_TYPE_RUN_ERROR": 16
+          }
+        },
+        "ConnectionStatus": {
+          "values": {
+            "CONNECTION_STATUS_UNSPECIFIED": 0,
+            "CONNECTION_STATUS_CONNECTING": 1,
+            "CONNECTION_STATUS_CONNECTED": 2,
+            "CONNECTION_STATUS_DISCONNECTED": 3
+          }
+        },
+        "Event": {
+          "oneofs": {
+            "_runId": {
+              "oneof": [
+                "runId"
+              ]
+            },
+            "payload": {
+              "oneof": [
+                "stepStarted",
+                "stepFinished",
+                "nodeStatusChanged",
+                "llmCallStarted",
+                "llmCallCompleted",
+                "toolInvoked",
+                "toolReturned",
+                "nodeCreated",
+                "planReceived",
+                "nodeAdded",
+                "edgeAdded",
+                "innerGraphBuilt",
+                "nodeResultAvailable",
+                "runStarted",
+                "runFinished",
+                "runError",
+                "unknownPayload"
+              ]
+            }
+          },
+          "fields": {
+            "eventId": {
+              "type": "string",
+              "id": 1
+            },
+            "timestamp": {
+              "type": "google.protobuf.Timestamp",
+              "id": 2
+            },
+            "eventType": {
+              "type": "EventType",
+              "id": 3
+            },
+            "runId": {
+              "type": "string",
+              "id": 4,
+              "options": {
+                "proto3_optional": true
+              }
+            },
+            "stepStarted": {
+              "type": "StepStartedPayload",
+              "id": 5
+            },
+            "stepFinished": {
+              "type": "StepFinishedPayload",
+              "id": 6
+            },
+            "nodeStatusChanged": {
+              "type": "NodeStatusChangePayload",
+              "id": 7
+            },
+            "llmCallStarted": {
+              "type": "LlmCallStartedPayload",
+              "id": 8
+            },
+            "llmCallCompleted": {
+              "type": "LlmCallCompletedPayload",
+              "id": 9
+            },
+            "toolInvoked": {
+              "type": "ToolInvokedPayload",
+              "id": 10
+            },
+            "toolReturned": {
+              "type": "ToolReturnedPayload",
+              "id": 11
+            },
+            "nodeCreated": {
+              "type": "NodeCreatedPayload",
+              "id": 12
+            },
+            "planReceived": {
+              "type": "PlanReceivedPayload",
+              "id": 13
+            },
+            "nodeAdded": {
+              "type": "NodeAddedPayload",
+              "id": 14
+            },
+            "edgeAdded": {
+              "type": "EdgeAddedPayload",
+              "id": 15
+            },
+            "innerGraphBuilt": {
+              "type": "InnerGraphBuiltPayload",
+              "id": 16
+            },
+            "nodeResultAvailable": {
+              "type": "NodeResultAvailablePayload",
+              "id": 17
+            },
+            "runStarted": {
+              "type": "RunStartedPayload",
+              "id": 18
+            },
+            "runFinished": {
+              "type": "RunFinishedPayload",
+              "id": 19
+            },
+            "runError": {
+              "type": "RunErrorPayload",
+              "id": 20
+            },
+            "unknownPayload": {
+              "type": "google.protobuf.Struct",
+              "id": 100
+            }
+          }
+        },
+        "EventsResponse": {
+          "fields": {
+            "status": {
+              "type": "ConnectionStatus",
+              "id": 1
+            },
+            "events": {
+              "rule": "repeated",
+              "type": "Event",
+              "id": 2
+            }
+          }
+        }
+      }
+    },
+    "google": {
+      "nested": {
+        "protobuf": {
+          "nested": {
+            "Struct": {
+              "fields": {
+                "fields": {
+                  "keyType": "string",
+                  "type": "Value",
+                  "id": 1
+                }
+              }
+            },
+            "Value": {
+              "oneofs": {
+                "kind": {
+                  "oneof": [
+                    "nullValue",
+                    "numberValue",
+                    "stringValue",
+                    "boolValue",
+                    "structValue",
+                    "listValue"
+                  ]
+                }
+              },
+              "fields": {
+                "nullValue": {
+                  "type": "NullValue",
+                  "id": 1
+                },
+                "numberValue": {
+                  "type": "double",
+                  "id": 2
+                },
+                "stringValue": {
+                  "type": "string",
+                  "id": 3
+                },
+                "boolValue": {
+                  "type": "bool",
+                  "id": 4
+                },
+                "structValue": {
+                  "type": "Struct",
+                  "id": 5
+                },
+                "listValue": {
+                  "type": "ListValue",
+                  "id": 6
+                }
+              }
+            },
+            "NullValue": {
+              "values": {
+                "NULL_VALUE": 0
+              }
+            },
+            "ListValue": {
+              "fields": {
+                "values": {
+                  "rule": "repeated",
+                  "type": "Value",
+                  "id": 1
+                }
+              }
+            },
+            "Timestamp": {
+              "fields": {
+                "seconds": {
+                  "type": "int64",
+                  "id": 1
+                },
+                "nanos": {
+                  "type": "int32",
+                  "id": 2
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

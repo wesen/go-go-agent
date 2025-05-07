@@ -3,8 +3,8 @@ import { EventSummaryWidgetProps, EventTableWidgetProps, EventTabProps } from '.
 import CodeHighlighter from '../SyntaxHighlighter';
 import ErrorBoundary from '../ErrorBoundary';
 import SimpleCodeFallback from '../SimpleCodeFallback';
-import { isEventType } from '../../helpers/eventType';
 import { Button } from 'react-bootstrap';
+import { EventType } from '../../generated/proto';
 
 /**
  * Format the event payload in a safe way
@@ -33,15 +33,19 @@ const formatPreview = (text: unknown, maxLength: number = 500): string => {
  * Summary widget for LLM call started events
  */
 export const LlmCallStartedSummary: React.FC<EventSummaryWidgetProps> = ({ 
-  event, 
+  protoEvent,
   setActiveTab,
   onNodeClick
 }) => {
-  if (!isEventType('llm_call_started')(event)) {
+  if (!protoEvent) {
+    return <div className="alert alert-warning">Invalid event type for LlmCallStartedSummary</div>;
+  }
+  if (protoEvent.eventType !== EventType.EVENT_TYPE_LLM_CALL_STARTED || !protoEvent.llmCallStarted) {
     return <div className="alert alert-warning">Invalid event type for LlmCallStartedSummary</div>;
   }
 
-  const { agent_class, model, prompt_preview, node_id, action_name, prompt } = event.payload;
+  const payload = protoEvent.llmCallStarted;
+  const { agent_class, model, prompt_preview, node_id, action_name, prompt } = payload;
   
   return (
     <>
@@ -109,15 +113,19 @@ export const LlmCallStartedSummary: React.FC<EventSummaryWidgetProps> = ({
  * Table widget for LLM call started events (for the event table row)
  */
 export const LlmCallStartedTable: React.FC<EventTableWidgetProps> = ({
-  event,
+  protoEvent,
   className = '',
   showCallIds = false
 }) => {
-  if (!isEventType('llm_call_started')(event)) {
+  if (!protoEvent) {
+    return <span className="text-warning">Invalid event</span>;
+  }
+  if (protoEvent.eventType !== EventType.EVENT_TYPE_LLM_CALL_STARTED || !protoEvent.llmCallStarted) {
     return <span className="text-warning">Invalid event</span>;
   }
   
-  const { agent_class, model, call_id } = event.payload;
+  const payload = protoEvent.llmCallStarted;
+  const { agent_class, model, call_id } = payload;
   
   return (
     <small className={className}>
@@ -133,13 +141,17 @@ export const LlmCallStartedTable: React.FC<EventTableWidgetProps> = ({
 /**
  * Specialized tab for displaying the full prompt
  */
-export const LlmCallStartedPromptTab: React.FC<EventTabProps> = ({ event }) => {
-  if (!isEventType('llm_call_started')(event)) {
+export const LlmCallStartedPromptTab: React.FC<EventTabProps> = ({ protoEvent }) => {
+  if (!protoEvent) {
+    return <div className="alert alert-warning">Invalid event type for prompt tab</div>;
+  }
+  if (protoEvent.eventType !== EventType.EVENT_TYPE_LLM_CALL_STARTED || !protoEvent.llmCallStarted) {
     return <div className="alert alert-warning">Invalid event type for prompt tab</div>;
   }
 
   // Extract the prompt from the payload
-  const { prompt } = event.payload;
+  const payload = protoEvent.llmCallStarted;
+  const { prompt } = payload;
   
   if (Array.isArray(prompt)) {
     return (

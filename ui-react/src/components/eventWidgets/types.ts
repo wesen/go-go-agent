@@ -1,9 +1,12 @@
-import React, { ComponentType } from 'react';
-import { AgentEvent, KnownEventType } from '../../features/events/eventsApi';
+import { ComponentType } from 'react';
+
+import { Event, EventType } from '../../generated/proto';
+import { AgentEvent } from '../../features/events/eventsApi';
 
 // Base interface for all event widgets
 export interface EventWidgetProps {
   event: AgentEvent;
+  protoEvent?: Event;
   onNodeClick?: (nodeId: string) => void;
 }
 
@@ -32,7 +35,7 @@ export interface TabDefinition {
 
 // Registry configuration interface
 export interface EventWidgetRegistration {
-  eventType: KnownEventType;
+  eventType: EventType;
   summaryWidget: ComponentType<EventSummaryWidgetProps>;
   tableWidget: ComponentType<EventTableWidgetProps>;
   extraTabs?: Array<TabDefinition>;
