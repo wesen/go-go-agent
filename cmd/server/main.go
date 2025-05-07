@@ -9,13 +9,14 @@ import (
 	"syscall"
 
 	"github.com/ThreeDotsLabs/watermill/message"
+	clay "github.com/go-go-golems/clay/pkg"
 	"github.com/go-go-golems/glazed/pkg/cli"
 	"github.com/go-go-golems/glazed/pkg/cmds"
 	"github.com/go-go-golems/glazed/pkg/cmds/layers"
+	"github.com/go-go-golems/glazed/pkg/cmds/logging"
 	"github.com/go-go-golems/glazed/pkg/cmds/parameters"
 	"github.com/go-go-golems/glazed/pkg/help"
 	"github.com/pkg/errors"
-	"github.com/rs/zerolog"
 	"github.com/rs/zerolog/log"
 	"github.com/spf13/cobra"
 	"golang.org/x/sync/errgroup"
@@ -42,7 +43,7 @@ type ServerSettings struct {
 	StaticFilesDir  string `glazed.parameter:"static-files-dir"`
 	ReloadSession   bool   `glazed.parameter:"reload-session"`
 	MaxEventHistory int    `glazed.parameter:"max-event-history"`
-	LogLevel        string `glazed.parameter:"log-level"`
+	// Log level is now handled by viper and global config
 }
 
 func (c *ServerCommand) Run(
@@ -65,17 +66,8 @@ func (c *ServerCommand) Run(
 		return err
 	}
 
-	// Setup logger with level from flag
-	level, err := zerolog.ParseLevel(serverSettings.LogLevel)
-	if err != nil {
-		return errors.Wrap(err, "invalid log level")
-	}
-	zerolog.SetGlobalLevel(level)
-
-	// Setup pretty console logging
-	consoleWriter := zerolog.ConsoleWriter{Out: os.Stdout, TimeFormat: "2006-01-02 15:04:05"}
-	logger := zerolog.New(consoleWriter).With().Timestamp().Caller().Logger()
-	log.Logger = logger
+	// Use the global logger that was set up from viper
+	logger := log.Logger
 
 	// Validate transport type
 	selectedTransportType := redis.TransportType(streamSettings.TransportType)
@@ -89,7 +81,6 @@ func (c *ServerCommand) Run(
 		Str("transport_type", streamSettings.TransportType).
 		Str("db_path", serverSettings.DBPath).
 		Str("http_listen_addr", serverSettings.HTTPListenAddr).
-		Str("log_level", serverSettings.LogLevel).
 		Bool("reload_session", serverSettings.ReloadSession).
 		Msg("Starting WriteHERE server")
 
@@ -296,13 +287,7 @@ The server supports both Redis Streams and Pub/Sub for message transport.`),
 				parameters.WithHelp("Maximum number of events to keep in memory"),
 				parameters.WithDefault(1000),
 			),
-			parameters.NewParameterDefinition(
-				"log-level",
-				parameters.ParameterTypeChoice,
-				parameters.WithHelp("Log level (trace, debug, info, warn, error, fatal, panic)"),
-				parameters.WithDefault("info"),
-				parameters.WithChoices("trace", "debug", "info", "warn", "error", "fatal", "panic"),
-			),
+			// Log level is now handled by viper and global config
 		),
 		cmds.WithLayersList(redisLayer, streamLayer),
 	)
@@ -317,6 +302,24 @@ func main() {
 	rootCmd := &cobra.Command{
 		Use:   "go-go-agent",
 		Short: "WriteHERE agent and server",
+		PersistentPreRunE: func(cmd *cobra.Command, args []string) error {
+			// Setup debug logging
+			return logging.InitLoggerFromViper()
+		},
+	}
+
+	// Initialize Viper right after creating the rootCmd
+	err := clay.InitViper("go-go-agent", rootCmd)
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error initializing viper: %v\n", err)
+		os.Exit(1)
+	}
+
+	// Setup zerolog
+	err = logging.InitLoggerFromViper()
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Error initializing logger: %v\n", err)
+		os.Exit(1)
 	}
 
 	// Initialize help system
@@ -339,6 +342,7 @@ func main() {
 
 	rootCmd.AddCommand(cobraCmd)
 
+	log.Info().Msg("Starting go-go-agent server")
 	// Execute
 	if err := rootCmd.Execute(); err != nil {
 		os.Exit(1)
